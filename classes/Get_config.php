@@ -67,7 +67,7 @@ class Get_config {
     if (
           is_array($config) &&
           isset($config['db_1']) && isset($config['db_2']) && isset($config['behaviour']) &&
-          (count($config['db_1']) == 4) && (count($config['db_2']) == 4) && count($config['behaviour'])
+          /*(count($config['db_1']) == 4) && (count($config['db_2']) == 4) && */ count($config['behaviour'])
     ) {
       // Configuration file seems to be well-formed
       $this->diff = array(

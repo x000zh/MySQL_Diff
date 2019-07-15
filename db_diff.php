@@ -3,8 +3,14 @@
 /**
  * Autoloader
  */
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/classes/');
-spl_autoload_register();
+#set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/classes/');
+function my_classloader ($class) {
+    $path = __DIR__ . "/classes/{$class}.php";
+    if (file_exists($path)){
+        include_once $path;
+    }
+}
+spl_autoload_register('my_classloader', true, true);
 
 
 /**
@@ -36,7 +42,10 @@ $data['config_used'] = $config->other['config_used'];
  * Deal with the result (display or email it)
  */
 $template_path = __DIR__ . '/templates/';
-if (Utilities::isCLI() === TRUE) {
+// Display the result
+View::factory($template_path . 'index', $data)->render();
+/**
+if (false && Utilities::isCLI() === TRUE) {
   // Running from the CLI
   $what = 'differences were detected between the "' . $MySQL_Diff->diffs['left'] . '" and "' . $MySQL_Diff->diffs['right'] . '" databases';
   $data['message'] = ($MySQL_Diff->mismatch === TRUE)
@@ -60,3 +69,4 @@ if (Utilities::isCLI() === TRUE) {
   // Display the result
   View::factory($template_path . 'index', $data)->render();
 }
+**/

@@ -20,11 +20,15 @@ class MySQL_Diff {
   private function switch_db($params = NULL) {
     if ( is_null($params) || !is_array($params) ) { return FALSE; } else {
       try {
-        $this->db = new PDO('mysql:host=' . $params['host'] . '; dbname=' .  $params['database'], $params['username'], $params['password']);
+        $port = '';
+        if(isset($params['port'])){
+            $port = "; port={$params['port']}";
+        }
+        $this->db = new PDO('mysql:host=' . $params['host'] . $port . '; dbname=' .  $params['database'], $params['username'], $params['password']);
       }
       catch(PDOException $e) {
         $this->db = FALSE;
-        Utilties::error($e->getMessage() . PHP_EOL);
+        Utilities::error($e->getMessage() . PHP_EOL);
       }
     }
   }
